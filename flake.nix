@@ -33,6 +33,8 @@
               pkgs.makeWrapper
             ];
 
+            dontBuild = true;
+
             installPhase = ''
               mkdir -p $out/bin
               cp whisper-watch.py $out/bin/whisper-watch
@@ -40,6 +42,11 @@
               wrapProgram $out/bin/whisper-watch \
                 --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.ffmpeg ]}
             '';
+
+            # Skip phases we don't need
+            dontConfigure = true;
+            doCheck = false;
+            pythonImportsCheck = [ ];
           };
         in
         {
